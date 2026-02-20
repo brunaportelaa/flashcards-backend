@@ -50,4 +50,20 @@ public class ReviewStats {
     public int getIntervalDays() {
         return intervalDays;
     }
+
+    public int getRepetitions() {
+        return repetitions;
+    }
+
+    public double getEaseFactor() {
+        return easeFactor;
+    }
+
+    public int getSuccessCount() {
+        return successCount;
+    }
+
+    public int getFailCount() {
+        return failCount;
+    }
 }
