@@ -22,7 +22,7 @@ public class FlashcardMapper {
         entity.setSuccessCount(stats.getSuccessCount());
         entity.setFailCount(stats.getFailCount());
 
-        return new FlashcardEntity();
+        return entity;
     }
 
     public static Flashcard toDomain(FlashcardEntity entity) {
