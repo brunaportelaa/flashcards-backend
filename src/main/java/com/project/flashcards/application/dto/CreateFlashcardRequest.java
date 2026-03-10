@@ -1,6 +1,6 @@
 package com.project.flashcards.application.dto;
 
-public class FlashcardRequestDTO {
+public class CreateFlashcardRequest {
     public String front;
     public String back;
     public String example;
