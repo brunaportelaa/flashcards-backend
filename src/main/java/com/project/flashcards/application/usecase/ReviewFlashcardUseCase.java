@@ -1,5 +1,6 @@
 package com.project.flashcards.application.usecase;
 
+import com.project.flashcards.api.exception.FlashcardNotFoundException;
 import com.project.flashcards.application.dto.ReviewFlashcardRequest;
 import com.project.flashcards.domain.model.Flashcard;
 import com.project.flashcards.domain.model.ReviewGrade;
@@ -19,7 +20,7 @@ public class ReviewFlashcardUseCase {
     public void execute(UUID cardId, ReviewFlashcardRequest request) {
 
         Flashcard card = repository.findById(cardId)
-                .orElseThrow(() -> new NotFoundException("Flashcard não encontrado"));
+                .orElseThrow(() -> new FlashcardNotFoundException(cardId));
 
         ReviewGrade grade = ReviewGrade.valueOf(request.grade);
 
