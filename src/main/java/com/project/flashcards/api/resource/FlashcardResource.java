@@ -4,7 +4,9 @@ import com.project.flashcards.application.dto.CreateFlashcardRequest;
 import com.project.flashcards.application.dto.FlashcardResponse;
 import com.project.flashcards.application.usecase.CreateFlashcardUseCase;
 import com.project.flashcards.application.usecase.ListFlashcardUseCase;
+import com.project.flashcards.domain.repository.FlashcardRepository;
 import com.project.flashcards.infrastructure.persistence.repository.FlashcardRepositoryImpl;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
@@ -17,8 +19,14 @@ public class FlashcardResource {
 
     private final FlashcardRepositoryImpl repository = new FlashcardRepositoryImpl();
 
-    private final CreateFlashcardUseCase createFlashcardUseCase = new CreateFlashcardUseCase(repository);
-    private final ListFlashcardUseCase listFlashcardsUseCase = new ListFlashcardUseCase(repository);
+    private final CreateFlashcardUseCase createFlashcardUseCase;
+    private final ListFlashcardUseCase listFlashcardsUseCase;
+
+    @Inject
+    public FlashcardResource(FlashcardRepository repository) {
+        this.createFlashcardUseCase = new CreateFlashcardUseCase(repository);
+        this.listFlashcardsUseCase = new ListFlashcardUseCase(repository);
+    }
 
     @POST
     public FlashcardResponse create(CreateFlashcardRequest request) {

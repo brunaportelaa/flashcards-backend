@@ -1,5 +1,6 @@
 package com.project.flashcards.bootstrap;
 
+import com.project.flashcards.infrastructure.config.DependencyBinder;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -14,7 +15,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         ResourceConfig config = new ResourceConfig()
-                .packages("com.project.flashcards.api");
+                .packages("com.project.flashcards.api")
+                .register(new DependencyBinder());
 
         HttpServer server = GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), config);
 
