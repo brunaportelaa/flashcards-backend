@@ -15,21 +15,38 @@ public class FlashcardMapper {
 
         ReviewStats stats = card.getReviewStats();
 
-        entity.setRepetitions(stats.getRepetitions());
-        entity.setIntervalDays(stats.getIntervalDays());
-        entity.setEaseFactor(stats.getEaseFactor());
-        entity.setNextReviewDate(stats.getNextReviewDate());
-        entity.setSuccessCount(stats.getSuccessCount());
-        entity.setFailCount(stats.getFailCount());
+        ReviewStatsEmbeddable emb = new ReviewStatsEmbeddable();
+
+        emb.setRepetitions(stats.getRepetitions());
+        emb.setIntervalDays(stats.getIntervalDays());
+        emb.setEaseFactor(stats.getEaseFactor());
+        emb.setNextReviewDate(stats.getNextReviewDate());
+        emb.setSuccessCount(stats.getSuccessCount());
+        emb.setFailCount(stats.getFailCount());
+
+        entity.setReviewStats(emb);
 
         return entity;
     }
 
     public static Flashcard toDomain(FlashcardEntity entity) {
 
-        Flashcard card = new Flashcard(entity.getFront(), entity.getBack());
-        //Fazer a reconstrução completa
+        ReviewStatsEmbeddable emb = entity.getReviewStats();
 
-        return card;
+        ReviewStats stats = new ReviewStats(
+                emb.getRepetitions(),
+                emb.getIntervalDays(),
+                emb.getEaseFactor(),
+                emb.getNextReviewDate(),
+                emb.getSuccessCount(),
+                emb.getFailCount()
+        );
+
+        return Flashcard.rehydrate(
+                entity.getId(),
+                entity.getFront(),
+                entity.getBack(),
+                stats
+        );
     }
 }

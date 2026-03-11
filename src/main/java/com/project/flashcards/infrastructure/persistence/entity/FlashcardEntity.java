@@ -1,5 +1,6 @@
 package com.project.flashcards.infrastructure.persistence.entity;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -20,12 +21,10 @@ public class FlashcardEntity {
     private String notes;
     private String level;
 
-    private int repetitions;
-    private int intervalDays;
-    private double easeFactor;
-    private LocalDate nextReviewDate;
-    private int successCount;
-    private int failCount;
+    // O embeddable não cria uma nova tabela com chave estrangeira, mas sim insere os campos do objeto Embedded
+    // diretamente na tabela do objeto principal
+    @Embedded
+    private ReviewStatsEmbeddable reviewStats;
 
     protected FlashcardEntity(){}
 
@@ -77,51 +76,11 @@ public class FlashcardEntity {
         this.level = level;
     }
 
-    public int getRepetitions() {
-        return repetitions;
+    public ReviewStatsEmbeddable getReviewStats() {
+        return reviewStats;
     }
 
-    public void setRepetitions(int repetitions) {
-        this.repetitions = repetitions;
-    }
-
-    public int getIntervalDays() {
-        return intervalDays;
-    }
-
-    public void setIntervalDays(int intervalDays) {
-        this.intervalDays = intervalDays;
-    }
-
-    public double getEaseFactor() {
-        return easeFactor;
-    }
-
-    public void setEaseFactor(double easeFactor) {
-        this.easeFactor = easeFactor;
-    }
-
-    public LocalDate getNextReviewDate() {
-        return nextReviewDate;
-    }
-
-    public void setNextReviewDate(LocalDate nextReviewDate) {
-        this.nextReviewDate = nextReviewDate;
-    }
-
-    public int getSuccessCount() {
-        return successCount;
-    }
-
-    public void setSuccessCount(int successCount) {
-        this.successCount = successCount;
-    }
-
-    public int getFailCount() {
-        return failCount;
-    }
-
-    public void setFailCount(int failCount) {
-        this.failCount = failCount;
+    public void setReviewStats(ReviewStatsEmbeddable reviewStats) {
+        this.reviewStats = reviewStats;
     }
 }

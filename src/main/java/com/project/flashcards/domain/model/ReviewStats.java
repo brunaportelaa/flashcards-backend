@@ -18,6 +18,15 @@ public class ReviewStats {
         this.nextReviewDate = LocalDate.now();
     }
 
+    public ReviewStats(int repetitions, int intervalDays, double easeFactor, LocalDate nextReviewDate, int successCount, int failCount) {
+        this.repetitions = repetitions;
+        this.intervalDays = intervalDays;
+        this.easeFactor = easeFactor;
+        this.nextReviewDate = nextReviewDate;
+        this.successCount = successCount;
+        this.failCount = failCount;
+    }
+
     public void registerReview(ReviewGrade grade) {
 
         // Se a ReviewGrade == AGAIN, repetitions são zeradas e o intervalo de dias é setado para 1. failCount é incrementada.
