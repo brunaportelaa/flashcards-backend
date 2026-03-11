@@ -5,6 +5,7 @@ import com.project.flashcards.application.mapper.StudyCardMapper;
 import com.project.flashcards.domain.model.Flashcard;
 import com.project.flashcards.domain.repository.FlashcardRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ public class GetStudyCardsUseCase {
 
     public List<StudyCardResponse> execute() {
 
-        List<Flashcard> cards = repository.findAll();
+        List<Flashcard> cards = repository.findDueCards(LocalDate.now());
 
         return cards.stream()
                 .filter(Flashcard::isDue)

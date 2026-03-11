@@ -8,6 +8,7 @@ import com.project.flashcards.infrastructure.persistence.entity.FlashcardMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -66,6 +67,24 @@ public class FlashcardRepositoryImpl implements FlashcardRepository {
         } finally {
             em.close();
         }
+
+    }
+
+    @Override
+    public List<Flashcard> findDueCards(LocalDate today) {
+
+        EntityManager em = JPAUtil.getEntityManager();
+
+            List<FlashcardEntity> entities = em.createQuery(
+                    "SELECT f FROM FlashcardEntity f WHERE f.reviewStats.nextReviewDate <= :today"
+            , FlashcardEntity.class)
+                    .setParameter("today", today)
+                    .getResultList();
+
+            return entities.stream()
+                    .map(FlashcardMapper::toDomain)
+                    .toList();
+
 
     }
 
