@@ -1,11 +1,10 @@
 package com.project.flashcards.infrastructure.persistence.entity;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -25,6 +24,14 @@ public class FlashcardEntity {
     // diretamente na tabela do objeto principal
     @Embedded
     private ReviewStatsEmbeddable reviewStats;
+
+    // Define uma nova tabela no banco, que tem a coluna de tags, e tem o id dos Flashcards como chave estrangeira
+    @ElementCollection
+    @CollectionTable(
+            name = "flashcard_tags",
+            joinColumns = @JoinColumn(name = "flashcard_id")
+    )
+    private Set<String> tags = new HashSet<>();
 
     protected FlashcardEntity(){}
 
@@ -82,5 +89,13 @@ public class FlashcardEntity {
 
     public void setReviewStats(ReviewStatsEmbeddable reviewStats) {
         this.reviewStats = reviewStats;
+    }
+
+    public Set<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<String> tags) {
+        this.tags = tags;
     }
 }

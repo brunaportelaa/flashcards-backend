@@ -3,6 +3,7 @@ package com.project.flashcards.api.resource;
 import com.project.flashcards.application.dto.CreateFlashcardRequest;
 import com.project.flashcards.application.dto.FlashcardResponse;
 import com.project.flashcards.application.usecase.CreateFlashcardUseCase;
+import com.project.flashcards.application.usecase.FindFlashcardByTagUseCase;
 import com.project.flashcards.application.usecase.ListFlashcardUseCase;
 import com.project.flashcards.domain.repository.FlashcardRepository;
 import com.project.flashcards.infrastructure.persistence.repository.FlashcardRepositoryImpl;
@@ -21,11 +22,13 @@ public class FlashcardResource {
 
     private final CreateFlashcardUseCase createFlashcardUseCase;
     private final ListFlashcardUseCase listFlashcardsUseCase;
+    private final FindFlashcardByTagUseCase findFlashcardByTagUseCase;
 
     @Inject
     public FlashcardResource(FlashcardRepository repository) {
         this.createFlashcardUseCase = new CreateFlashcardUseCase(repository);
         this.listFlashcardsUseCase = new ListFlashcardUseCase(repository);
+        this.findFlashcardByTagUseCase = new FindFlashcardByTagUseCase(repository);
     }
 
     @POST
@@ -36,5 +39,11 @@ public class FlashcardResource {
     @GET
     public List<FlashcardResponse> list() {
         return listFlashcardsUseCase.execute();
+    }
+
+    @GET
+    @Path("/tag/{tag}")
+    public List<FlashcardResponse> findByTag(@PathParam("tag") String tag) {
+        return findFlashcardByTagUseCase.execute();
     }
 }

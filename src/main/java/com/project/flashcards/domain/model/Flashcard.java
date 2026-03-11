@@ -1,5 +1,9 @@
 package com.project.flashcards.domain.model;
 
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.JoinColumn;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -14,6 +18,7 @@ public class Flashcard {
     private String level;
 
     private Set<String> tags = new HashSet<>();
+
     private ReviewStats reviewStats;
 
     // Cria novo flashcard
@@ -41,7 +46,11 @@ public class Flashcard {
 
 
     public void addTag(String tag) {
-        tags.add(tag);
+        tags.add(tag.toLowerCase());
+    }
+
+    public void removeTag(String tag) {
+        tags.remove(tag.toLowerCase());
     }
 
     public void review(ReviewGrade grade) {
@@ -66,6 +75,10 @@ public class Flashcard {
 
     public ReviewStats getReviewStats() {
         return reviewStats;
+    }
+
+    public Set<String> getTags() {
+        return tags;
     }
 
 

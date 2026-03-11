@@ -3,6 +3,8 @@ package com.project.flashcards.infrastructure.persistence.entity;
 import com.project.flashcards.domain.model.Flashcard;
 import com.project.flashcards.domain.model.ReviewStats;
 
+import java.util.HashSet;
+
 public class FlashcardMapper {
 
     public static FlashcardEntity toEntity(Flashcard card) {
@@ -25,6 +27,7 @@ public class FlashcardMapper {
         emb.setFailCount(stats.getFailCount());
 
         entity.setReviewStats(emb);
+        entity.setTags(new HashSet<>(card.getTags()));
 
         return entity;
     }
@@ -42,11 +45,14 @@ public class FlashcardMapper {
                 emb.getFailCount()
         );
 
-        return Flashcard.rehydrate(
+        Flashcard card = Flashcard.rehydrate(
                 entity.getId(),
                 entity.getFront(),
                 entity.getBack(),
-                stats
-        );
+                stats);
+
+        entity.getTags().forEach(card::addTag);
+
+        return card;
     }
 }

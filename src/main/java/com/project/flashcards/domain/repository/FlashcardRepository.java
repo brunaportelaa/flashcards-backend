@@ -18,4 +18,6 @@ public interface FlashcardRepository {
     List<Flashcard> findDueCards(LocalDate today);
 
     void delete(UUID id);
+
+    List<Flashcard> findByTag(String tag);
 }

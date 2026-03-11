@@ -75,9 +75,10 @@ public class FlashcardRepositoryImpl implements FlashcardRepository {
 
         EntityManager em = JPAUtil.getEntityManager();
 
+        try {
             List<FlashcardEntity> entities = em.createQuery(
-                    "SELECT f FROM FlashcardEntity f WHERE f.reviewStats.nextReviewDate <= :today"
-            , FlashcardEntity.class)
+                            "SELECT f FROM FlashcardEntity f WHERE f.reviewStats.nextReviewDate <= :today"
+                            , FlashcardEntity.class)
                     .setParameter("today", today)
                     .getResultList();
 
@@ -85,7 +86,9 @@ public class FlashcardRepositoryImpl implements FlashcardRepository {
                     .map(FlashcardMapper::toDomain)
                     .toList();
 
-
+        } finally {
+            em.close();
+        }
     }
 
     @Override
@@ -101,6 +104,26 @@ public class FlashcardRepositoryImpl implements FlashcardRepository {
             }
 
             em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Flashcard> findByTag(String tag) {
+        EntityManager em = JPAUtil.getEntityManager();
+
+        try {
+            List<FlashcardEntity> entities = em.createQuery(
+                            "SELECT DISTINCT f FROM FlashcardEntity f JOIN f.tags t WHERE t = :tag"
+                            , FlashcardEntity.class)
+                    .setParameter("tag", tag)
+                    .getResultList();
+
+            return entities.stream()
+                    .map(FlashcardMapper::toDomain)
+                    .toList();
+
         } finally {
             em.close();
         }
