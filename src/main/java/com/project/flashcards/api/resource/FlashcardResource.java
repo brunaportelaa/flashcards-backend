@@ -44,6 +44,6 @@ public class FlashcardResource {
     @GET
     @Path("/tag/{tag}")
     public List<FlashcardResponse> findByTag(@PathParam("tag") String tag) {
-        return findFlashcardByTagUseCase.execute();
+        return findFlashcardByTagUseCase.execute(tag);
     }
 }
