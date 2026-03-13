@@ -5,7 +5,7 @@ import com.project.flashcards.domain.model.ReviewStats;
 
 import java.util.HashSet;
 
-public class FlashcardMapper {
+public class FlashcardEntityMapper {
 
     public static FlashcardEntity toEntity(Flashcard card) {
 

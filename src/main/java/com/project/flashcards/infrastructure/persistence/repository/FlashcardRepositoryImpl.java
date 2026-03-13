@@ -3,7 +3,7 @@ package com.project.flashcards.infrastructure.persistence.repository;
 import com.project.flashcards.domain.model.Flashcard;
 import com.project.flashcards.domain.repository.FlashcardRepository;
 import com.project.flashcards.infrastructure.persistence.entity.FlashcardEntity;
-import com.project.flashcards.infrastructure.persistence.entity.FlashcardMapper;
+import com.project.flashcards.infrastructure.persistence.entity.FlashcardEntityMapper;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
@@ -25,7 +25,7 @@ public class FlashcardRepositoryImpl implements FlashcardRepository {
     @Transactional
     public Flashcard save(Flashcard flashcard) {
 
-        FlashcardEntity entity = FlashcardMapper.toEntity(flashcard);
+        FlashcardEntity entity = FlashcardEntityMapper.toEntity(flashcard);
         em.merge(entity);
 
         return flashcard;
@@ -36,7 +36,7 @@ public class FlashcardRepositoryImpl implements FlashcardRepository {
 
         FlashcardEntity entity = em.find(FlashcardEntity.class, id);
         return Optional.ofNullable(entity)
-                .map(FlashcardMapper::toDomain);
+                .map(FlashcardEntityMapper::toDomain);
 
     }
 
@@ -46,7 +46,7 @@ public class FlashcardRepositoryImpl implements FlashcardRepository {
                 em.createQuery("FROM FlashcardEntity", FlashcardEntity.class)
                         .getResultList();
 
-        return entities.stream().map(FlashcardMapper::toDomain).toList();
+        return entities.stream().map(FlashcardEntityMapper::toDomain).toList();
     }
 
     @Override
@@ -58,7 +58,7 @@ public class FlashcardRepositoryImpl implements FlashcardRepository {
                     .getResultList();
 
         return entities.stream()
-                    .map(FlashcardMapper::toDomain)
+                    .map(FlashcardEntityMapper::toDomain)
                     .toList();
 
     }
@@ -84,7 +84,7 @@ public class FlashcardRepositoryImpl implements FlashcardRepository {
                     .getResultList();
 
         return entities.stream()
-                    .map(FlashcardMapper::toDomain)
+                    .map(FlashcardEntityMapper::toDomain)
                     .toList();
 
     }
