@@ -1,0 +1,32 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: flashcards-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: flashcards
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  api:
+    build: .
+    container_name: flashcards-api
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_URL: jdbc:mysql://mysql:3306/flashcards?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    ports:
+      - "8080:8080"
+
+volumes:
+  mysql_data:
