@@ -88,4 +88,29 @@ public class FlashcardRepositoryImpl implements FlashcardRepository {
                     .toList();
 
     }
+
+    @Override
+    public List<Flashcard> findAllPaged(int page, int size) {
+        return em.createQuery(("""
+                SELECT f
+                FROM FlashcardEntity f
+                ORDER BY f.front
+                """
+                ), FlashcardEntity.class)
+                .setFirstResult(page * size)
+                .setMaxResults(size)
+                .getResultList()
+                .stream()
+                .map(FlashcardEntityMapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public long countAll() {
+        return em.createQuery("""
+                SELECT COUNT(f)
+                FROM FlashcardEntity f
+                """, Long.class)
+                .getSingleResult();
+    }
 }

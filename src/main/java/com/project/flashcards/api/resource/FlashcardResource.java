@@ -2,10 +2,8 @@ package com.project.flashcards.api.resource;
 
 import com.project.flashcards.application.dto.CreateFlashcardRequest;
 import com.project.flashcards.application.dto.FlashcardResponse;
-import com.project.flashcards.application.usecase.CreateFlashcardUseCase;
-import com.project.flashcards.application.usecase.DeleteFlashcardUseCase;
-import com.project.flashcards.application.usecase.FindFlashcardByTagUseCase;
-import com.project.flashcards.application.usecase.ListFlashcardUseCase;
+import com.project.flashcards.application.dto.PagedResponse;
+import com.project.flashcards.application.usecase.*;
 import com.project.flashcards.domain.repository.FlashcardRepository;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -28,6 +26,7 @@ public class FlashcardResource {
     private final ListFlashcardUseCase listFlashcardsUseCase;
     private final FindFlashcardByTagUseCase findFlashcardByTagUseCase;
     private final DeleteFlashcardUseCase deleteFlashcardUseCase;
+    private final ListFlashcardsPagedUseCase listFlashcardsPagedUseCase;
 
     @Inject
     public FlashcardResource(FlashcardRepository repository) {
@@ -35,6 +34,7 @@ public class FlashcardResource {
         this.listFlashcardsUseCase = new ListFlashcardUseCase(repository);
         this.findFlashcardByTagUseCase = new FindFlashcardByTagUseCase(repository);
         this.deleteFlashcardUseCase = new DeleteFlashcardUseCase(repository);
+        this.listFlashcardsPagedUseCase = new ListFlashcardsPagedUseCase(repository);
     }
 
     @POST
@@ -56,9 +56,12 @@ public class FlashcardResource {
     }
 
     @GET
-    @Operation(summary = "Listar todos os flashcards")
-    public List<FlashcardResponse> list() {
-        return listFlashcardsUseCase.execute();
+    @Operation(summary = "Listar todos os flashcards paginados")
+    public PagedResponse<FlashcardResponse> list(
+            @QueryParam("page") @DefaultValue("0") int page,
+            @QueryParam("size") @DefaultValue("10") int size
+    ) {
+        return listFlashcardsPagedUseCase.execute(page, size);
     }
 
     @GET

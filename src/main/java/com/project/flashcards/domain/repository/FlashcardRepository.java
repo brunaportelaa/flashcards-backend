@@ -20,4 +20,8 @@ public interface FlashcardRepository {
     void delete(UUID id);
 
     List<Flashcard> findByTag(String tag);
+
+    List<Flashcard> findAllPaged(int page, int size);
+
+    long countAll();
 }
