@@ -59,9 +59,11 @@ public class FlashcardResource {
     @Operation(summary = "Listar todos os flashcards paginados")
     public PagedResponse<FlashcardResponse> list(
             @QueryParam("page") @DefaultValue("0") int page,
-            @QueryParam("size") @DefaultValue("10") int size
+            @QueryParam("size") @DefaultValue("10") int size,
+            @QueryParam("sort") @DefaultValue("front") String sort,
+            @QueryParam ("direction") @DefaultValue("asc") String direction
     ) {
-        return listFlashcardsPagedUseCase.execute(page, size);
+        return listFlashcardsPagedUseCase.execute(page, size, sort, direction);
     }
 
     @GET

@@ -21,7 +21,7 @@ public interface FlashcardRepository {
 
     List<Flashcard> findByTag(String tag);
 
-    List<Flashcard> findAllPaged(int page, int size);
+    List<Flashcard> findAllPaged(int page, int size, String sortField, String direction);
 
     long countAll();
 }

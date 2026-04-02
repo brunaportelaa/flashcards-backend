@@ -90,13 +90,14 @@ public class FlashcardRepositoryImpl implements FlashcardRepository {
     }
 
     @Override
-    public List<Flashcard> findAllPaged(int page, int size) {
-        return em.createQuery(("""
+    public List<Flashcard> findAllPaged(int page, int size, String sortField, String direction) {
+        String jpql = """
                 SELECT f
                 FROM FlashcardEntity f
-                ORDER BY f.front
-                """
-                ), FlashcardEntity.class)
+                ORDER BY %s %s
+                """.formatted(sortField, direction);
+
+        return em.createQuery(jpql, FlashcardEntity.class)
                 .setFirstResult(page * size)
                 .setMaxResults(size)
                 .getResultList()
