@@ -10,13 +10,17 @@ public class FlashcardSearchQueryMapper {
             int page,
             int size,
             String sort,
-            String direction
+            String direction,
+            String tag,
+            Boolean dueToday
     ) {
         return new FlashcardSearchQuery(
                 page,
                 size,
                 parseSortField(sort),
-                parseDirection(direction)
+                parseDirection(direction),
+                tag,
+                dueToday != null && dueToday
         );
     }
 

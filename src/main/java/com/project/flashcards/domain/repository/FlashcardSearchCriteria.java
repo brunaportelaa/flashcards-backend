@@ -1,23 +1,27 @@
-package com.project.flashcards.application.query;
+package com.project.flashcards.domain.repository;
 
-import com.project.flashcards.application.dto.FlashcardSortField;
-import com.project.flashcards.application.dto.SortDirection;
-
-public class FlashcardSearchQuery {
+public class FlashcardSearchCriteria {
 
     private final int page;
     private final int size;
-    private final FlashcardSortField sortField;
-    private final SortDirection sortDirection;
+    private final String sortField;
+    private final String sortDirection;
     private final String tag;
     private final boolean dueToday;
 
-    public FlashcardSearchQuery(int page, int size, FlashcardSortField sortField, SortDirection sortDirection, String tag, boolean dueToday) {
+    public FlashcardSearchCriteria(
+            int page,
+            int size,
+            String sortField,
+            String sortDirection,
+            String tag,
+            boolean dueToday
+    ) {
         this.page = page;
         this.size = size;
         this.sortField = sortField;
         this.sortDirection = sortDirection;
-        this.tag = (tag == null || tag.isBlank()) ? null : tag.toLowerCase();
+        this.tag = tag;
         this.dueToday = dueToday;
     }
 
@@ -29,11 +33,11 @@ public class FlashcardSearchQuery {
         return size;
     }
 
-    public FlashcardSortField getSortField() {
+    public String getSortField() {
         return sortField;
     }
 
-    public SortDirection getSortDirection() {
+    public String getSortDirection() {
         return sortDirection;
     }
 
@@ -48,5 +52,4 @@ public class FlashcardSearchQuery {
     public boolean hasTagFilter() {
         return tag != null && !tag.isBlank();
     }
-
 }

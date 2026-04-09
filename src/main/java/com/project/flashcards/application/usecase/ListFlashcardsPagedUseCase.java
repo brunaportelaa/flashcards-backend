@@ -6,6 +6,7 @@ import com.project.flashcards.application.mapper.FlashcardDtoMapper;
 import com.project.flashcards.application.mapper.FlashcardSortMapper;
 import com.project.flashcards.application.query.FlashcardSearchQuery;
 import com.project.flashcards.domain.repository.FlashcardRepository;
+import com.project.flashcards.domain.repository.FlashcardSearchCriteria;
 
 import java.util.List;
 
@@ -19,17 +20,20 @@ public class ListFlashcardsPagedUseCase {
 
     public PagedResponse<FlashcardResponse> execute(FlashcardSearchQuery query){
 
-        String jpaField = FlashcardSortMapper.toJpaField(query.getSortField());
-        String jpaDirection = FlashcardSortMapper.toJpaDirection(query.getSortDirection());
+        FlashcardSearchCriteria criteria = new FlashcardSearchCriteria(
+                query.getPage(),
+                query.getSize(),
+                FlashcardSortMapper.toJpaField(query.getSortField()),
+                FlashcardSortMapper.toJpaDirection(query.getSortDirection()),
+                query.getTag(),
+                query.isDueToday());
 
-        List<FlashcardResponse> items = repository.findAllPaged(query.getPage(), query.getSize(),
-                        jpaField, jpaDirection)
+        List<FlashcardResponse> items = repository.search(criteria)
                 .stream()
                 .map(FlashcardDtoMapper::toResponse)
                 .toList();
 
-        long totalItems = repository.countAll();
-
+        long totalItems = repository.count(criteria);
 
         return new PagedResponse<FlashcardResponse>(items, query.getPage(), query.getSize(), totalItems);
     }

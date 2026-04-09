@@ -63,9 +63,11 @@ public class FlashcardResource {
             @QueryParam("page") @DefaultValue("0") int page,
             @QueryParam("size") @DefaultValue("10") int size,
             @QueryParam("sort") @DefaultValue("front") String sort,
-            @QueryParam ("direction") @DefaultValue("asc") String direction
+            @QueryParam ("direction") @DefaultValue("asc") String direction,
+            @QueryParam("tag") String tag,
+            @QueryParam("dueToday") @DefaultValue("false") boolean dueToday
     ) {
-        FlashcardSearchQuery query = FlashcardSearchQueryMapper.from(page, size, sort, direction);
+        FlashcardSearchQuery query = FlashcardSearchQueryMapper.from(page, size, sort, direction, tag, dueToday);
         return listFlashcardsPagedUseCase.execute(query);
     }
 

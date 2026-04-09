@@ -15,6 +15,10 @@ public interface FlashcardRepository {
 
     List<Flashcard> findAll();
 
+    List<Flashcard> search(FlashcardSearchCriteria criteria);
+
+    long count(FlashcardSearchCriteria criteria);
+
     List<Flashcard> findDueCards(LocalDate today);
 
     void delete(UUID id);
@@ -23,5 +27,4 @@ public interface FlashcardRepository {
 
     List<Flashcard> findAllPaged(int page, int size, String sortField, String direction);
 
-    long countAll();
 }
