@@ -1,6 +1,7 @@
 package com.project.flashcards.application.usecase;
 
 import com.project.flashcards.application.dto.StudyCardResponse;
+import com.project.flashcards.application.dto.StudySessionResponse;
 import com.project.flashcards.application.mapper.StudyCardMapper;
 import com.project.flashcards.domain.model.Flashcard;
 import com.project.flashcards.domain.repository.FlashcardRepository;
@@ -17,13 +18,19 @@ public class GetStudyCardsUseCase {
         this.repository = repository;
     }
 
-    public List<StudyCardResponse> execute() {
+    public StudySessionResponse execute() {
 
-        List<Flashcard> cards = repository.findDueCards(LocalDate.now());
+        List<StudyCardResponse> items = repository.findDueCards(LocalDate.now())
+                .stream()
+                .map(flashcard -> {
+                    StudyCardResponse response = new StudyCardResponse();
+                    response.id = flashcard.getId();
+                    response.front = flashcard.getFront();
+                    response.back = flashcard.getBack();
+                    return response;
+                })
+                .toList();
 
-        return cards.stream()
-                .filter(Flashcard::isDue)
-                .map(StudyCardMapper::toResponse)
-                .collect(Collectors.toList());
+        return new StudySessionResponse(items);
     }
 }
