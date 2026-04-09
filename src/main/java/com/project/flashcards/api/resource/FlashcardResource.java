@@ -3,6 +3,8 @@ package com.project.flashcards.api.resource;
 import com.project.flashcards.application.dto.CreateFlashcardRequest;
 import com.project.flashcards.application.dto.FlashcardResponse;
 import com.project.flashcards.application.dto.PagedResponse;
+import com.project.flashcards.application.mapper.FlashcardSearchQueryMapper;
+import com.project.flashcards.application.query.FlashcardSearchQuery;
 import com.project.flashcards.application.usecase.*;
 import com.project.flashcards.domain.repository.FlashcardRepository;
 import jakarta.inject.Inject;
@@ -63,7 +65,8 @@ public class FlashcardResource {
             @QueryParam("sort") @DefaultValue("front") String sort,
             @QueryParam ("direction") @DefaultValue("asc") String direction
     ) {
-        return listFlashcardsPagedUseCase.execute(page, size, sort, direction);
+        FlashcardSearchQuery query = FlashcardSearchQueryMapper.from(page, size, sort, direction);
+        return listFlashcardsPagedUseCase.execute(query);
     }
 
     @GET
