@@ -29,7 +29,7 @@ public class GetStudyStatsUseCase {
                 .sum();
 
         int fail = cards.stream()
-                .mapToInt(c -> c.getReviewStats().getSuccessCount())
+                .mapToInt(c -> c.getReviewStats().getFailCount())
                 .sum();
 
         StudyStatsResponse stats = new StudyStatsResponse();

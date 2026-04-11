@@ -1,4 +1,4 @@
-package com.project.flashcards.api.exception;
+package com.project.flashcards.domain.exception;
 
 import java.util.UUID;
 

@@ -9,6 +9,7 @@ import com.project.flashcards.application.query.FlashcardSearchQuery;
 import com.project.flashcards.application.usecase.*;
 import com.project.flashcards.domain.repository.FlashcardRepository;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -26,7 +27,6 @@ import java.util.UUID;
 public class FlashcardResource {
 
     private final CreateFlashcardUseCase createFlashcardUseCase;
-    private final ListFlashcardUseCase listFlashcardsUseCase;
     private final FindFlashcardByTagUseCase findFlashcardByTagUseCase;
     private final DeleteFlashcardUseCase deleteFlashcardUseCase;
     private final ListFlashcardsPagedUseCase listFlashcardsPagedUseCase;
@@ -35,7 +35,6 @@ public class FlashcardResource {
     @Inject
     public FlashcardResource(FlashcardRepository repository) {
         this.createFlashcardUseCase = new CreateFlashcardUseCase(repository);
-        this.listFlashcardsUseCase = new ListFlashcardUseCase(repository);
         this.findFlashcardByTagUseCase = new FindFlashcardByTagUseCase(repository);
         this.deleteFlashcardUseCase = new DeleteFlashcardUseCase(repository);
         this.listFlashcardsPagedUseCase = new ListFlashcardsPagedUseCase(repository);
@@ -52,7 +51,7 @@ public class FlashcardResource {
             responseCode = "400",
             description = "Requisição inválida"
     )
-    public Response create(CreateFlashcardRequest request) {
+    public Response create(@Valid CreateFlashcardRequest request) {
         FlashcardResponse response = createFlashcardUseCase.execute(request);
         return Response
                 .status(Response.Status.CREATED)

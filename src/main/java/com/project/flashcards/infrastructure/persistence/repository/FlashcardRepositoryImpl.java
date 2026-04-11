@@ -1,5 +1,6 @@
 package com.project.flashcards.infrastructure.persistence.repository;
 
+import com.project.flashcards.application.mapper.FlashcardSortMapper;
 import com.project.flashcards.domain.model.Flashcard;
 import com.project.flashcards.domain.repository.FlashcardRepository;
 import com.project.flashcards.domain.repository.FlashcardSearchCriteria;
@@ -68,9 +69,9 @@ public class FlashcardRepositoryImpl implements FlashcardRepository {
         }
 
         jpql.append(" ORDER BY ")
-                .append(criteria.getSortField())
+                .append(FlashcardSortMapper.toJpaField(criteria.getSortField()))
                 .append(" ")
-                .append(criteria.getSortDirection());
+                .append(FlashcardSortMapper.toJpaDirection(criteria.getSortDirection()));
 
         var query = em.createQuery(jpql.toString(), FlashcardEntity.class);
 

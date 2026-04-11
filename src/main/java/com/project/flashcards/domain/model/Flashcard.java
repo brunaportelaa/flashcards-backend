@@ -1,10 +1,7 @@
 package com.project.flashcards.domain.model;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.JoinColumn;
-
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -13,24 +10,29 @@ public class Flashcard {
     private final UUID id;
     private String front;
     private String back;
-    private String example;
-    private String notes;
-    private String level;
+    String example;
+    String notes;
+    String level;
 
     private Set<String> tags = new HashSet<>();
 
     private ReviewStats reviewStats;
 
     // Cria novo flashcard
-    public Flashcard(String front, String back) {
-        this(UUID.randomUUID(), front, back, new ReviewStats());
+    public Flashcard(String front, String back, String example, String notes, String level) {
+        this(UUID.randomUUID(), front, back, new ReviewStats(), example, notes, level);
     }
 
-    public Flashcard(UUID id, String front, String back, ReviewStats stats ) {
+
+    public Flashcard(UUID id, String front, String back, ReviewStats stats, String example, String notes,
+                     String level ) {
         this.id = id;
         this.front = front;
         this.back = back;
         this.reviewStats = stats;
+        this.example = example;
+        this.notes = notes;
+        this.level = level;
     }
 
 
@@ -39,9 +41,12 @@ public class Flashcard {
             UUID id,
             String front,
             String back,
-            ReviewStats stats
+            ReviewStats stats,
+            String example,
+            String notes,
+            String level
     ) {
-       return new Flashcard(id, front, back, stats);
+       return new Flashcard(id, front, back, stats, example, notes, level);
     }
 
 
@@ -81,5 +86,15 @@ public class Flashcard {
         return tags;
     }
 
+    public String getExample() {
+        return example;
+    }
 
+    public String getNotes() {
+        return notes;
+    }
+
+    public String getLevel() {
+        return level;
+    }
 }

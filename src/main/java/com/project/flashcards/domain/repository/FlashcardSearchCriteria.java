@@ -1,19 +1,22 @@
 package com.project.flashcards.domain.repository;
 
+import com.project.flashcards.application.dto.FlashcardSortField;
+import com.project.flashcards.application.dto.SortDirection;
+
 public class FlashcardSearchCriteria {
 
     private final int page;
     private final int size;
-    private final String sortField;
-    private final String sortDirection;
+    private final FlashcardSortField sortField;
+    private final SortDirection sortDirection;
     private final String tag;
     private final boolean dueToday;
 
     public FlashcardSearchCriteria(
             int page,
             int size,
-            String sortField,
-            String sortDirection,
+            FlashcardSortField sortField,
+            SortDirection sortDirection,
             String tag,
             boolean dueToday
     ) {
@@ -33,11 +36,11 @@ public class FlashcardSearchCriteria {
         return size;
     }
 
-    public String getSortField() {
+    public FlashcardSortField getSortField() {
         return sortField;
     }
 
-    public String getSortDirection() {
+    public SortDirection getSortDirection() {
         return sortDirection;
     }
 

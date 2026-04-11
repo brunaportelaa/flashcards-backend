@@ -2,7 +2,6 @@ package com.project.flashcards.application.usecase;
 
 import com.project.flashcards.application.dto.StudyCardResponse;
 import com.project.flashcards.application.dto.StudySessionResponse;
-import com.project.flashcards.application.dto.StudyStatsResponse;
 import com.project.flashcards.application.mapper.StudyCardMapper;
 import com.project.flashcards.domain.repository.FlashcardRepository;
 

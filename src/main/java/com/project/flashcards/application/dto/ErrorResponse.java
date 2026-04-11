@@ -1,6 +1,5 @@
 package com.project.flashcards.application.dto;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ErrorResponse {

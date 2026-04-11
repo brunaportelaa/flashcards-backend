@@ -14,6 +14,9 @@ public class FlashcardEntityMapper {
         entity.setId(card.getId());
         entity.setFront(card.getFront());
         entity.setBack(card.getBack());
+        entity.setExample(card.getExample());
+        entity.setLevel(card.getLevel());
+        entity.setNotes(card.getNotes());
 
         ReviewStats stats = card.getReviewStats();
 
@@ -49,7 +52,10 @@ public class FlashcardEntityMapper {
                 entity.getId(),
                 entity.getFront(),
                 entity.getBack(),
-                stats);
+                stats,
+                entity.getExample(),
+                entity.getNotes(),
+                entity.getLevel());
 
         entity.getTags().forEach(card::addTag);
 

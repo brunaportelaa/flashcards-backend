@@ -1,4 +1,4 @@
-package com.project.flashcards.domain.exception;
+package com.project.flashcards.api.exception;
 
 import com.project.flashcards.application.dto.ErrorResponse;
 import jakarta.ws.rs.core.Response;

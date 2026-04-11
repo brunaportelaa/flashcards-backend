@@ -23,8 +23,8 @@ public class ListFlashcardsPagedUseCase {
         FlashcardSearchCriteria criteria = new FlashcardSearchCriteria(
                 query.getPage(),
                 query.getSize(),
-                FlashcardSortMapper.toJpaField(query.getSortField()),
-                FlashcardSortMapper.toJpaDirection(query.getSortDirection()),
+                query.getSortField(),
+                query.getSortDirection(),
                 query.getTag(),
                 query.isDueToday());
 
