@@ -3,6 +3,7 @@ package com.project.flashcards.api.resource;
 import com.project.flashcards.application.dto.CreateFlashcardRequest;
 import com.project.flashcards.application.dto.FlashcardResponse;
 import com.project.flashcards.application.dto.PagedResponse;
+import com.project.flashcards.application.dto.StudySessionResponse;
 import com.project.flashcards.application.mapper.FlashcardSearchQueryMapper;
 import com.project.flashcards.application.query.FlashcardSearchQuery;
 import com.project.flashcards.application.usecase.*;
@@ -29,6 +30,7 @@ public class FlashcardResource {
     private final FindFlashcardByTagUseCase findFlashcardByTagUseCase;
     private final DeleteFlashcardUseCase deleteFlashcardUseCase;
     private final ListFlashcardsPagedUseCase listFlashcardsPagedUseCase;
+    private final GetFreeStudySessionUseCase getFreeStudySessionUseCase;
 
     @Inject
     public FlashcardResource(FlashcardRepository repository) {
@@ -37,6 +39,7 @@ public class FlashcardResource {
         this.findFlashcardByTagUseCase = new FindFlashcardByTagUseCase(repository);
         this.deleteFlashcardUseCase = new DeleteFlashcardUseCase(repository);
         this.listFlashcardsPagedUseCase = new ListFlashcardsPagedUseCase(repository);
+        this.getFreeStudySessionUseCase = new GetFreeStudySessionUseCase(repository);
     }
 
     @POST
@@ -84,5 +87,13 @@ public class FlashcardResource {
         deleteFlashcardUseCase.execute(id);
         return Response.noContent().build();
     }
+
+    @GET
+    @Path("/free")
+    public Response getFreeStudyCards() {
+        StudySessionResponse response = getFreeStudySessionUseCase.execute();
+        return Response.ok().entity(response).build();
+    }
+
 
 }

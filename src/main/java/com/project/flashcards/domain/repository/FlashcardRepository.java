@@ -27,4 +27,5 @@ public interface FlashcardRepository {
 
     List<Flashcard> findAllPaged(int page, int size, String sortField, String direction);
 
+    List<Flashcard> findAllSortedByPriority();
 }

@@ -178,4 +178,23 @@ public class FlashcardRepositoryImpl implements FlashcardRepository {
         return query.getSingleResult();
 
     }
+
+    @Override
+    public List<Flashcard> findAllSortedByPriority() {
+        List<FlashcardEntity> entities = em.createQuery("""
+                        SELECT f
+                        FROM FlashcardEntity f
+                        ORDER BY
+                            f.reviewStats.repetitions ASC,
+                            f.reviewStats.failCount DESC,
+                            f.reviewStats.easeFactor ASC,
+                            f.reviewStats.nextReviewDate ASC
+                    """, FlashcardEntity.class)
+                .getResultList();
+
+        return entities.stream()
+                .map(FlashcardEntityMapper::toDomain)
+                .toList();
+
+    }
 }
