@@ -3,6 +3,7 @@ package com.project.flashcards.api.resource;
 import com.project.flashcards.application.dto.ReviewFlashcardRequest;
 import com.project.flashcards.application.dto.StudyCardResponse;
 import com.project.flashcards.application.dto.StudySessionResponse;
+import com.project.flashcards.application.usecase.GetFreeStudySessionUseCase;
 import com.project.flashcards.application.usecase.GetStudyCardsUseCase;
 import com.project.flashcards.application.usecase.ReviewFlashcardUseCase;
 import com.project.flashcards.domain.repository.FlashcardRepository;
@@ -24,11 +25,13 @@ public class StudyResource {
 
     private final GetStudyCardsUseCase getStudyCardsUseCase;
     private final ReviewFlashcardUseCase reviewFlashcardUseCase;
+    private final GetFreeStudySessionUseCase getFreeStudySessionUseCase;
 
     @Inject
     public StudyResource(FlashcardRepository repository) {
         this.getStudyCardsUseCase = new GetStudyCardsUseCase(repository);
         this.reviewFlashcardUseCase = new ReviewFlashcardUseCase(repository);
+        this.getFreeStudySessionUseCase = new GetFreeStudySessionUseCase(repository);
     }
 
     @GET
@@ -44,5 +47,12 @@ public class StudyResource {
     public Response review(@PathParam("id") UUID id, ReviewFlashcardRequest request) {
         reviewFlashcardUseCase.execute(id, request);
         return Response.noContent().build();
+    }
+
+    @GET
+    @Path("/free")
+    public Response getFreeStudyCards() {
+        StudySessionResponse response = getFreeStudySessionUseCase.execute();
+        return Response.ok().entity(response).build();
     }
 }
